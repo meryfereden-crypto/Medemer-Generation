@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የመደመር ትውልድ - 120 አጠቃላይ የጥያቄና መልስ ዝግጅት</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Ethiopic', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c7d2fe; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #818cf8; 
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50 text-gray-800 flex flex-col items-center py-10 px-4">
+
+    <!-- Main Container -->
+    <div id="app-container" class="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden relative min-h-[500px] flex flex-col">
+        
+        <!-- Header -->
+        <header class="bg-indigo-600 text-white p-6 text-center shadow-md">
+            <h1 class="text-2xl md:text-3xl font-bold">የመደመር ትውልድ</h1>
+            <p class="text-indigo-200 mt-2 text-sm md:text-base">120 አጠቃላይ የጥያቄና መልስ ዝግጅት</p>
+        </header>
+
+        <!-- VIEW 1: Registration / Start Screen -->
+        <div id="start-screen" class="p-8 md:p-12 flex-1 flex flex-col justify-center items-center fade-in">
+            <div class="mb-8 text-center">
+                <svg class="w-20 h-20 text-indigo-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <h2 class="text-2xl font-semibold mb-2">እንኳን በደህና መጡ!</h2>
+                <p class="text-gray-500">ፈተናውን ከመጀመርዎ በፊት እባክዎ መረጃዎን ያስገቡ።</p>
+            </div>
+
+            <div class="w-full max-w-md space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">ሙሉ ስም (Full Name)</label>
+                    <input type="text" id="student-name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" placeholder="ስምዎን ያስገቡ..." required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">የመታወቂያ ቁጥር (ID Number)</label>
+                    <input type="text" id="student-id" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" placeholder="መታወቂያ ቁጥርዎን ያስገቡ..." required>
+                </div>
+                
+                <div id="error-msg" class="hidden text-red-500 text-sm mt-2 text-center bg-red-50 p-2 rounded">
+                    እባክዎ ስምዎን እና መታወቂያ ቁጥርዎን በትክክል ያስገቡ።
+                </div>
+
+                <button id="start-btn" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-200 transform hover:-translate-y-1">
+                    ፈተናውን ጀምር (Start Quiz)
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 2: Quiz Screen -->
+        <div id="quiz-screen" class="hidden flex-1 flex flex-col fade-in">
+            <!-- Progress & Info Bar -->
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex flex-col md:flex-row justify-between items-center text-sm gap-2">
+                <div class="flex items-center text-gray-600 font-medium">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span id="display-name">ስም</span> | <span id="display-id" class="ml-1">ID</span>
+                </div>
+                <div class="font-bold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-full">
+                    ጥያቄ <span id="current-q-num">1</span> ከ <span id="total-q-num">120</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 h-1.5">
+                <div id="progress-bar" class="bg-indigo-600 h-1.5 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- Question Area -->
+            <div class="p-6 md:p-10 flex-1">
+                <h3 id="question-text" class="text-lg md:text-xl font-semibold mb-6 text-gray-800 leading-relaxed">
+                    ጥያቄው እዚህ ይገባል...
+                </h3>
+
+                <!-- Options -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Options injected via JS -->
+                </div>
+
+                <!-- Instant Feedback Area -->
+                <div id="feedback-area" class="hidden mt-6 p-4 rounded-xl border fade-in">
+                    <div class="flex items-start">
+                        <div id="feedback-icon" class="mt-1 flex-shrink-0">
+                            <!-- Icon injected via JS -->
+                        </div>
+                        <div class="ml-3">
+                            <h4 id="feedback-title" class="font-bold text-lg"></h4>
+                            <p id="feedback-explanation" class="mt-1 text-sm md:text-base leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Controls -->
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+                <button id="prev-btn" class="px-5 py-2.5 rounded-lg font-medium text-gray-600 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-900 transition flex items-center disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    ወደ ኋላ (Back)
+                </button>
+                
+                <button id="next-btn" class="px-6 py-2.5 rounded-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 shadow transition flex items-center">
+                    <span id="next-btn-text">ዝለል (Skip)</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 3: Results Dashboard -->
+        <div id="result-screen" class="hidden p-8 md:p-12 flex-1 flex flex-col justify-center items-center fade-in bg-gradient-to-b from-white to-indigo-50">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-24 h-24 bg-green-100 text-green-500 rounded-full mb-4 shadow-inner">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">ፈተናውን ጨርሰዋል!</h2>
+                <p class="text-gray-600">ውጤትዎን ከታች ይመልከቱ</p>
+            </div>
+
+            <div class="w-full max-w-md bg-white rounded-xl shadow-lg border border-gray-100 p-6 mb-8 text-center">
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500 font-medium">ተፈታኝ</p>
+                    <p id="result-name" class="text-lg font-bold text-gray-800"></p>
+                    <p id="result-id" class="text-sm text-gray-500"></p>
+                </div>
+                <div class="border-t border-gray-100 pt-4">
+                    <p class="text-sm text-gray-500 font-medium mb-1">አጠቃላይ ውጤት</p>
+                    <div class="flex justify-center items-baseline gap-2">
+                        <span id="score-points" class="text-5xl font-extrabold text-indigo-600">0</span>
+                        <span class="text-xl text-gray-400 font-medium">/ 120</span>
+                    </div>
+                    <p id="score-percentage" class="text-lg font-semibold text-green-500 mt-2">0%</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+                <button id="email-btn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    ውጤቱን ላክ (Email)
+                </button>
+                <button id="restart-btn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg shadow transition">
+                    እንደገና ሞክር
+                </button>
+            </div>
+            <p class="text-xs text-gray-400 mt-6">Email will be sent to: mesayferedegn2@gmail.com</p>
+        </div>
+
+    </div>
+
+    <!-- RAW DATA EMBEDDED & JS LOGIC -->
+    <script>
+        // --- 1. Raw Data Extraction ---
+        // The raw prompt text is stored here, and parsed dynamically.
+        const rawTextData = `
+1. መደመር ዋና ትኩረቱ ምንድን ነው?
+A) ትውልድን በመሥራት ሀገር መገንባት
+B) ጦርነት ማሸነፍ
+C) ኢኮኖሚ ማዳከም
+D) የውጭ ሀገራትን መከተል
+መልስ: A
+2. የመደመር ነገ ምንድን ነው?
+A) ትውልድ
+B) ቴክኖሎጂ
+C) ታሪክ
+D) ፖለቲካ
+መልስ: A
+3. በመደመር እሳቤ መሠረት፣ ሀገር የሚያጠነክር እሴትን ባህል መገንባት ግቡ ምንድን ነው?
+A) ትውልድ የሚግባባበት ቋንቋ ለማድረግ
+B) ሕዝብን ለመከፋፈል
+C) ውጭ ሀገርን ለመምሰል
+D) ታሪክን ለማጥፋት
+መልስ: A
+4. ትውልድ በአንድ ቤተሰብ ደረጃ ሲታይ ምንን ይመስላል?
+A) የቆመ ሐይቅ
+B) ወደላይና ወደታች የሚፈስ ወንዝ
+C) ሰፊ በረሃ
+D) የተዘጋ በር
+መልስ: B
+5. የቀደመው ትውልድ በቀጣዩ ትውልድ ላይ ያለው ተጽዕኖ ምንድን ነው?
+A) ምንም ተጽዕኖ የለውም
+B) አሉታዊ ብቻ ነው
+C) ዕዳና ወረትን ያወርሳል
+D) ቋንቋን ብቻ ያስተምራል
+መልስ: C
+6. ትውልድን ከትውልድ የሚለየው ዋና ጉዳይ ምንድን ነው?
+A) ዕድሜ እና ታሪካዊ ክስተቶች
+B) የፀጉር ቀለም
+C) የደም ዓይነት
+D) የአመጋገብ ሥርዓት
+መልስ: A
+7. ሀገር የምትገነባው እንዴት ነው?
+A) በአንድ ጀምበር
+B) በትውልድ ቅጥልጣይ ውስጥ
+C) በውጭ እርዳታ ብቻ
+D) በጦርነት ብቻ
+መልስ: B
+8. የአንድ ትውልድ አባላት የሚጋሩት ምንድን ነው?
+A) የተለያየ ቋንቋ
+B) ተመሳሳይ የታሪክ አጋጣሚዎች እና ዕይታ
+C) የተለያየ ዜግነት
+D) የተለያየ የትውልድ ቦታ
+መልስ: B
+9. ትውልዶች ባህሪያቸውና ማንነታቸው መልክ የሚይዘው በምን ውስጥ ነው?
+A) በሚተኙበት ሰዓት
+B) ፈተናዎችን ለማለፍ እና ዕድሎቹን ለመጠቀም በሚያደርጉት ጉዞ
+C) በሚበሉት ምግብ
+D) በሚለብሱት ልብስ
+መልስ: B
+10. ቶም በሮካው ‹‹ታላቁ ትውልድ›› ብሎ የጠራው የትኛውን ነው?
+A) የአሁኑን ወጣት
+B) በታላቁ የኢኮኖሚ ድባቴና በ2ኛው የዓለም ጦርነት ያለፈውን
+C) የመካከለኛው ዘመን ሰዎችን
+D) የወደፊቱን ትውልድ
+መልስ: B
+11. በእስልምና አስተምህሮ መሠረት ነቢዩ መሐመድ ‹‹ወንድሞቼ ይናፍቁኛል›› ያሉት እነማንን ነው?
+A) ከእሳቸው ጋር ያሉትን ሰሐቦች
+B) እሳቸውን ሳያዩ በመልዕክታቸው የሚያምኑትን መጪውን ትውልድ
+C) ያለፈውን ትውልድ
+D) የውጭ ሀገር ሰዎችን
+መልስ: B
+12. በገዳ ሥርዓት ውስጥ ዕድሜ ምን ሚና አለው?
+A) ምንም ሚና የለውም
+B) የሥራ ድርሻ ክፍፍልን እና ማህበራዊ ኃላፊነትን ይወስናል
+C) ለጋብቻ ብቻ ያገለግላል
+D) ለጦርነት ብቻ ያገለግላል
+መልስ: B
+13. በገዳ ሥርዓት ትውልድ መተካካት በስንት ዓመት ይከወናል?
+A) በ4 ዓመት
+B) በ8 ዓመት
+C) በ10 ዓመት
+D) በ12 ዓመት
+መልስ: B
+14. ዕድሜ በሚሰጠን ወቅት ዕድሜያችን የሚጠይቀንን ነገር የማድረግ ችሎታ ማጣት ምን ያስከትላል?
+A) ስኬት
+B) የተዛባ የሕይወት ሁኔታ
+C) ደስታ
+D) ሀብት
+መልስ: B
+15. ትውልድን የሚቀርጹ ለውጦች ምን ምን ሊሆኑ ይችላሉ?
+A) ድንገቴ ክስተቶች ወይም ዝግመታዊ ለውጦች
+B) የአየር ንብረት ብቻ
+C) የምግብ ዓይነት ብቻ
+D) የልብስ ዲዛይን ብቻ
+መልስ: A
+16. ‹‹የጥቁር ዳክዬ ክስተቶች›› (Black Swan events) የሚባሉት ምን ዓይነት ናቸው?
+A) የተለመዱ
+B) የማይታወቁ፣ የማይገመቱ እና ከፍተኛ ለውጥ የሚያስከትሉ
+C) ምንም ለውጥ የማያመጡ
+D) በየቀኑ የሚከሰቱ
+መልስ: B
+17. የፓራዳይም ለውጥ ምንድን ነው?
+A) የመኖሪያ ቤት ለውጥ
+B) ዓለምን የመመልከቻ መንገድ ወይም የእሳቤ ማዕቀፍ ለውጥ
+C) የልብስ ፋሽን ለውጥ
+D) የቋንቋ ለውጥ
+መልስ: B
+18. የፖለቲካ ሥርዓት መፋለስ መቼ ይከሰታል?
+A) ሥርዓቱ ፈተናዎችን ተቋቁሞ ሲያድግ
+B) ሥርዓቱ ድጋፍን መገንባት እና አሉታዊ ለውጦችን መቋቋም ሲያቅተው
+C) ምርጫ ሲካሄድ
+D) አዳዲስ መሪዎች ሲሾሙ
+መልስ: B
+19. በጃፓን ‹‹New Breed Generation›› የሚባሉት የትኞቹ ናቸው?
+A) በ1960ዎቹ የተወለዱ፣ ለፖለቲካ ፍላጎት የሌላቸው
+B) በጦርነት ውስጥ ያለፉ
+C) ፖለቲካን የሚመሩ
+D) ወታደሮች
+መልስ: A
+20. ‹‹ፍንዳታው ትውልድ›› (Baby Boomers) መቼ የተወለዱ ናቸው?
+A) ከአንደኛው ጦርነት በፊት
+B) ከሁለተኛው የዓለም ጦርነት ማግስት
+C) በ21ኛው ክፍለ ዘመን
+D) በ19ኛው ክፍለ ዘመን
+መልስ: B
+21. ዘመናዊነት በዓለም ላይ በስፋት የታየው መቼ ነው?
+A) ከ10ኛው መክዘ
+B) ከ15ኛው መክዘ
+C) ከ18ኛው/19ኛው መክዘ ጀምሮ
+D) ከ21ኛው መክዘ
+መልስ: C
+22. የዘመናዊት ኢትዮጵያ ትውልድ አመጣጥ ከምን ጋር ይተሳሰራል?
+A) ከምሁራዊ እና ከጀግንነት ታሪክ (ከቀለምና ከደም)
+B) ከንግድ ብቻ
+C) ከግብርና ብቻ
+D) ከስፖርት ብቻ
+መልስ: A
+23. በዘመናዊት ኢትዮጵያ ታሪክ 'ወግ አጥባቂው ትውልድ' የሚባለው የትኛው ነው?
+A) የ1960ዎቹ ተማሪዎች
+B) የመጀመሪያዎቹ ዘመናዊ ምሁራን (በዳግማዊ ምኒልክ ዘመን)
+C) የደርግ ወታደሮች
+D) የኢህአዴግ ታጋዮች
+መልስ: B
+24. ወግ አጥባቂው ትውልድ የየትኛውን ሀገር የዘመናዊነት ተሞክሮ መቅሰም ይፈልግ ነበር?
+A) አሜሪካ
+B) ሩሲያ
+C) ጃፓን
+D) ቻይና
+መልስ: C
+25. የጃፓን ተሞክሮ ለወግ አጥባቂው ትውልድ ማራኪ የነበረው ለምንድን ነው?
+A) ጥንታዊት ሀገር ሆና ዘመናዊነትን ከባህሏ ጋር ስላጣጣመች
+B) አፍሪካዊት ሀገር ስለሆነች
+C) ብዙ ጦር መሳሪያ ስላላት
+D) ቅኝ ተገዝታ ስለነበር
+መልስ: A
+26. ወግ አጥባቂው ትውልድ የተፈጠረበት የታሪክ አውድ ምንድን ነው?
+A) አድዋ ኩራትና የሁለተኛው የጣልያን ጦርነት ቁጭት
+B) የቀዝቃዛው ጦርነት
+C) የኮቪድ ወረርሽኝ
+D) የፈረንሳይ አብዮት
+መልስ: A
+27. ወግ አጥባቂው ትውልድ የነበረው ትልቁ ክፍተት ምን ነበር?
+A) አውሮፓውያንን መጥላቱ
+B) የሰፊውን ሕዝብ አንገብጋቢ ጥያቄ የለውጥ አካል ለማድረግ ፍላጎቱ አናሳ መሆኑ
+C) ትምህርት መጥላቱ
+D) ሃይማኖት መተው
+መልስ: B
+28. በወግ አጥባቂው ዘመን የሰፊው ሕዝብ የኑሮ ዘይቤ ምን ነበር?
+A) የፋብሪካ ሠራተኛ
+B) የጭሰኝነትና የግብርና ኑሮ
+C) የባንክ ባለሙያ
+D) የውጭ አገር ኑሮ
+መልስ: B
+29. በወቅቱ የተከሰቱት የገበሬዎች አመፅ (እንደ ቀዳማዊ ወያኔ፣ ባሌ) መነሻ ምን ነበር?
+A) የቋንቋ ጥያቄ
+B) የምርት ግንኙነቱ የፈጠረው ከልክ ያለፈ ተጽዕኖ እና ብዝበዛ
+C) የውጭ ወረራ
+D) የቴክኖሎጂ እጦት
+መልስ: B
+30. ወግ አጥባቂው ትውልድ ለምን 'ወግ አጥባቂ' ተባለ?
+A) ወግን በመጠበቅ ዘመናዊነትን ሊያሳልጥ ስለተነሳ
+B) ሁሉንም አዲስ ነገር ስለጠላ
+C) ባህልን ስላጠፋ
+D) ባዕዳንን ስለመሰለ
+መልስ: A
+31. ‹‹ህልመኛው ትውልድ›› በመባል የሚታወቀው የትኛው ነው?
+A) የ1920ዎቹ ምሁራን
+B) የ1960ዎቹ ትውልድ (ያ ትውልድ)
+C) በ2000ዎቹ የተወለደው
+D) የአድዋ ጀግኖች
+መልስ: B
+32. ህልመኛው ትውልድ በስፋት የተቀበለው ርዕዮተ ዓለም ምን ነበር?
+A) ካፒታሊዝም
+B) ማርክሲዝም (ሶሻሊዝም)
+C) ሊበራሊዝም
+D) ፋሺዝም
+መልስ: B
+33. ህልመኛው ትውልድ በኩራት የሚናገርለት ታላቅ ገድል የትኛው ነው?
+A) የመሬት ለአራሽ አዋጅ
+B) የኢንዱስትሪ አብዮት
+C) የውጭ ጦርነት ማሸነፍ
+D) የስፔስ ምርምር
+መልስ: A
+34. ህልመኛው ትውልድ ከተቹት አንዱ ነጥብ ምንድን ነው?
+A) የራስን ማንነት ወደ መተው እና የፈረንጅን ነገር ሁሉ ወደ መተግበር ማዘንበሉ
+B) ለገበሬው አለመቆርቆሩ
+C) ትምህርት አለመፈለጉ
+D) የውጭ ቋንቋ አለመቻሉ
+መልስ: A
+35. ህልመኛው ትውልድ የሀገሪቱን ችግሮች ለመፍታት የተከተለው አካሄድ ምን ይመስል ነበር?
+A) በውይይትና በምክክር
+B) በአብዮታዊ እና ደም አፋሳሽ መንገድ (ስር ነቀል)
+C) በዝግታና በሂደት
+D) በጸሎት ብቻ
+መልስ: B
+36. ጀብደኝነት ከጀግንነት በምን ይለያል?
+A) በዓላማ ጽናት
+B) ዐቅምን ባላገናዘበ አጉል ድፍረት መሆኑ
+C) በጦር መሳሪያ ብዛት
+D) በዕድሜ
+መልስ: B
+37. ህልመኛው ትውልድ ለሀገሩ የነበረው ተቆርቋሪነት በምን ይገለጻል?
+A) ገጠር ወርዶ ማስተማሩና የሲያድ ባሬን ወረራ መመከቱ
+B) ሀገሩን መሸጡ
+C) ትምህርት ማቆሙ
+D) ምንም አላደረገም
+መልስ: A
+38. የህልመኛው ትውልድ ልሂቃን ዋናው ችግር ምን ነበር?
+A) የፈረንጆችን ሐሳብ ብቻ ፍፁም መፍትሔ አድርጎ መውሰዱ
+B) ማንበብ አለመቻላቸው
+C) መጻፍ አለመቻላቸው
+D) ወደ ውጭ አለመጓዛቸው
+መልስ: A
+39. ‹‹ያለ ምንም ደም›› በሚል መፈክር የተጀመረው ሽግግር ምን ወለደ?
+A) ፍጹም ሰላም
+B) የእብደት ዘመንን እና ደም አፋሳሽነትን
+C) የኢኮኖሚ ተዓምር
+D) የቴክኖሎጂ ፈጠራ
+መልስ: B
+40. ህልመኛው ትውልድ የንጉሣዊ አስተዳደርን አፍርሶ ምን ለመገንባት ሞከረ?
+A) ዴሞክራሲያዊ የሕዝብ አስተዳደር (ሶሻሊስታዊ መንግስት)
+B) የውጭ ቅኝ ግዛት
+C) የሃይማኖት መንግስት
+D) የንግድ ድርጅት
+መልስ: A
+41. በ20ኛው መክዘ መጨረሻ አካባቢ ለዐቅመ ፖለቲካ የደረሰው ትውልድ ምን ይባላል?
+A) ወግ አጥባቂው
+B) ህልመኛው
+C) ውል አልባው ትውልድ
+D) ባይተዋሩ
+መልስ: C
+42. ውል አልባው ትውልድ ያደገው በየትኛው ፖለቲካዊ ሽግግር ውስጥ ነው?
+A) በደርግ ማብቂያና በኢህአዴግ መጀመሪያ
+B) በአጼ ኃይለሥላሴ መጀመሪያ
+C) በአድዋ ጦርነት
+D) በጣልያን ወረራ
+መልስ: A
+43. ውል አልባው ትውልድ ‹‹ውል አልባ›› የተባለበት ምክንያት ምንድን ነው?
+A) ምንም ልብስ ስለሌለው
+B) የመደብና የብሔር፣ የሶሻሊዝምና የነፃ ገበያ ድብልቅ ፖለቲካ ግራ ስላጋባው
+C) ትምህርት ስላልተማረ
+D) ሀገር ስሌለው
+መልስ: B
+44. የውል አልባው ትውልድ የፖለቲካ ተሳትፎ በአብዛኛው ምን ይመስል ነበር?
+A) ከፍተኛ ተሳትፎ
+B) ከፖለቲካ የራቀና ፍራቻ የነገሰበት
+C) ሁልጊዜ አደባባይ መውጣት
+D) የፖለቲካ ፓርቲ መመስረት
+መልስ: B
+45. ውል አልባው ትውልድ አንጻራዊ የፖለቲካ መነቃቃት ያሳየው መቼ ነበር?
+A) በ1966 አብዮት
+B) በ1983 ለውጥ
+C) በምርጫ 97 ጊዜ
+D) በ2010 ለውጥ
+መልስ: C
+46. ውል አልባው ትውልድ ያሳለፈው አንዱ ትልቅ ፈተና ምን ነበር?
+A) የተራዘመ ጦርነትና ብሔራዊ ውትድርና
+B) የስፔስ ጉዞ
+C) የኢንተርኔት መቋረጥ
+D) የመኪና እጥረት
+መልስ: A
+47. ኢህአዴግ ወደ ሥልጣን ሲመጣ የተወው ርዕዮተ ዓለም ምን ነበር?
+A) ካፒታሊዝም
+B) ሶሻሊዝም
+C) ሊበራሊዝም
+D) ኮንሰርቫቲዝም
+መልስ: B
+48. የውል አልባው ትውልድ ፖለቲካዊ ባህል በምን የተቃኘ ነበር?
+A) በልዩነት ፖለቲካ እና የደበዘዘ ሀገራዊ ስሜት
+B) በፍጹም አንድነት
+C) በውጭ ሀገራት ፍቅር
+D) በሃይማኖት አክራሪነት
+መልስ: A
+49. በውል አልባው ትውልድ ዘመን የሶሻሊዝም ተጽዕኖ ምን ሆነ?
+A) ሙሉ በሙሉ ጠፋ
+B) የፖለቲካ ጨዋታ ደንብ ሆኖ ቀጠለ
+C) በካፒታሊዝም ተተካ
+D) በፍጹም አልነበረም
+መልስ: B
+50. ውል አልባው ትውልድ በምርጫ 97 የተፈጠረው ውጥረት ምን አደረገው?
+A) ተስፋ ሰጠው
+B) ተመልሶ ወደ ፖለቲካ ፍራቻ ዋሻው እንዲገባ አደረገው
+C) ሀብታም አደረገው
+D) መሪ አደረገው
+መልስ: B
+51. ከሚሊኒዬሙ ማግስት የተፈጠረው ትውልድ ምን ተብሎ ይጠራል?
+A) ህልመኛው
+B) ባይተዋሩ ትውልድ
+C) ወግ አጥባቂው
+D) ታላቁ ትውልድ
+መልስ: B
+52. የባይተዋሩ ትውልድ 'ባይተዋርነት' ምንጮች ምን ምን ናቸው?
+A) የልዩነት ፖለቲካ እና የሉአላዊነት/ማህበራዊ ሚዲያ መስፋፋት
+B) ድህነት እና ረሃብ ብቻ
+C) ቋንቋ አለመቻል
+D) ትምህርት ቤት አለመኖር
+መልስ: A
+53. ባይተዋሩ ትውልድ ዴሞክራሲን በተመለከተ ያለው ግንዛቤ ምን ይመስላል?
+A) መብቱን የሚጠይቅ ግን ግዴታውን የማይወጣ
+B) ግዴታውን ብቻ የሚወጣ
+C) ዴሞክራሲን የሚጠላ
+D) ዴሞክራሲን በሚገባ የተረዳ
+መልስ: A
+54. ይህ ትውልድ መብቱን እንጂ ምንን አያውቅም ይባላል?
+A) ቋንቋውን
+B) ግዴታውን
+C) ጓደኛውን
+D) ቤተሰቡን
+መልስ: B
+55. በባይተዋሩ ትውልድ ውስጥ በሰፊው የሚንጸባረቁት ስሜቶች ምንድን ናቸው?
+A) ደስታና እርካታ
+B) ግጭት፣ እርስ በእርስ መካሰስ፣ መጠባበቅና መብሰክሰክ
+C) ፍቅርና ሰላም
+D) ሀብት ማካበት
+መልስ: B
+56. ባይተዋሩ ትውልድ በምን ዓይነት ድባብ ውስጥ ያለፈ ነው?
+A) በሶሻሊዝም
+B) በሉአላዊነት እና በዓለም አቀፋዊነት (Globalization)
+C) በቅኝ ግዛት
+D) በዘመነ መሳፍንት
+መልስ: B
+57. የማህበራዊ ሚዲያ መስፋፋት በባይተዋሩ ትውልድ ላይ ምን ተፅዕኖ ፈጠረ?
+A) አንድነትን አጠናከረ
+B) መረጃን አጣርቶ ለመጠቀም ፈተና ፈጠረበት
+C) ሀብታም አደረገው
+D) ትምህርቱን እንዲያቋርጥ አደረገ
+መልስ: B
+58. ይህ ትውልድ ሀገሩን በተመለከተ ያለው አመለካከት ምን ይመስላል?
+A) ሀገሩ የሌላትን የሚጠይቅ እና አልሰጠችኝም ብሎ የሚሰደድ
+B) በሀገሩ ሙሉ በሙሉ የሚረካ
+C) ሀገሩን ለማልማት ብቻ የሚጥር
+D) ስለ ሀገሩ ምንም የማያውቅ
+መልስ: A
+59. የልዩነት ፖለቲካ አወቃቀር በባይተዋሩ ትውልድ ላይ ምን አስከተለ?
+A) ሀገራዊ አንድነት
+B) የቡድን እና የማንነት አስተሳሰብን ማጠናከር
+C) ዓለም አቀፋዊ ፍቅር
+D) የኢኮኖሚ ዕድገት
+መልስ: B
+60. የባይተዋሩ ትውልድ ከህልመኛው ትውልድ የወረሰው ፖለቲካዊ ባህሪ ምንድን ነው?
+A) የአክራሪነት ፖለቲካ
+B) የመቻቻል ፖለቲካ
+C) የንግድ ፖለቲካ
+D) የሃይማኖት ፖለቲካ
+መልስ: A
+61. በኢትዮጵያ ፖለቲካ ውስጥ ጉልህ ተፅዕኖ የፈጠረው ፓራዳይም የትኛው ነው?
+A) ካፒታሊዝም
+B) ሶሻሊዝም
+C) ፋሺዝም
+D) ፊውዳሊዝም
+መልስ: B
+62. ሶሻሊዝም በኢትዮጵያ ፖለቲካ ውስጥ የገዘፈ ሚና እንዲኖረው ካደረጉት ምክንያቶች አንዱ ምንድን ነው?
+A) መንግስታዊ ስልጣንን የተቆጣጠረ ኃይል ማዕቀፍ በመሆኑ
+B) በሕዝብ ምርጫ ስለመጣ
+C) በውጭ ኃይሎች ስለተጫነ
+D) በገበሬዎች ስለተፈጠረ
+መልስ: A
+63. አክራሪነት ምን ማለት ነው?
+A) የሰማይን ዳርቻ ፍለጋ የሚደረግ ከንቱ ግስጋሴ (የአንድን ሀሳብ ጫፍ መፈለግ)
+B) መካከለኛ መንገድን መከተል
+C) ሁሉንም ሰው ማክበር
+D) በሰላም መኖር
+መልስ: A
+64. በሀሳብ ደረጃ ከሚታዩ አክራሪነቶች ዋነኞቹ የትኞቹ ናቸው?
+A) ጽንፈኝነትና ዋልታ ረገጥነት
+B) መቻቻልና መደማመጥ
+C) ምክክርና ድርድር
+D) ፍቅርና ሰላም
+መልስ: A
+65. ዋልታ ረገጥነት ምንድን ነው?
+A) በልዩነት ዙሪያ መወያየት
+B) በቡድናዊ ስሜት ልዩነትን አለአግባብ መለጠጥ
+C) አንድነትን ማምጣት
+D) ኢኮኖሚ ማሳደግ
+መልስ: B
+66. አክራሪነት በሀገራችን ፖለቲካ ውስጥ ከፈጠራቸው ተግዳሮቶች አንዱ የትኛው ነው?
+A) ስር ነቀልነት (አፍርሶ እንደገና የመጀመር ባህል)
+B) ፈጣን የኢኮኖሚ ዕድገት
+C) ጠንካራ ዴሞክራሲ
+D) ዘላቂ ሰላም
+መልስ: A
+67. ደካማ ዴሞክራሲያዊ ባህል በምን ይገለጻል?
+A) በሐሳብ የበላይነት ማመን
+B) በኃይልና በኢ-ዴሞክራሲያዊ መንገድ መንግስትን ለመለወጥ መሞከር
+C) በሰላማዊ ሰልፍ
+D) በምርጫ ብቻ
+መልስ: B
+68. ስር ነቀልነትን በምን መቀየር ይገባል?
+A) በተሀድሷዊ ለውጥ
+B) በጦርነት
+C) በዝምታ
+D) በአምባገነንነት
+መልስ: A
+69. ማህበራዊ አክራሪነት በምን ሊገለጽ ይችላል?
+A) ሴቶችን፣ አካል ጉዳተኞችን እና አዛውንቶችን በማግለል (ዘረኝነት፣ አውራጃዊነት)
+B) ሁሉንም በእኩል በማየት
+C) ሀብት በማካፈል
+D) ትምህርት በማስፋፋት
+መልስ: A
+70. በፖለቲካው መስክ 'ደም አፋሳሽነትን' በምን መተካት አለብን?
+A) በሰላማዊ ውድድር እና በሐሳብ ብልጫ
+B) በከፋ ጦርነት
+C) በአድማ
+D) በውጭ ጣልቃ ገብነት
+መልስ: A
+71. የሀገረ መንግስት ቅቡልነት (State Legitimacy) ማለት ምን ማለት ነው?
+A) ሕዝብና ልሂቃን ሀገረ መንግስቱን የፍላጎታቸው አስፈጻሚ አድርገው መቀበላቸው
+B) የመንግስት ወታደር ብዛት
+C) የሀገሪቱ የገንዘብ አቅም
+D) የውጭ ሀገራት ድጋፍ
+መልስ: A
+72. ጠንካራ የሀገረ መንግስት ቅቡልነት ምን ይፈልጋል?
+A) ጠንካራ ትርክት (የጋራ ተቀባይነት ያለው ሀሳብ)
+B) ብዙ ጦር መሳሪያ
+C) የውጭ ብድር
+D) ቋንቋ አንድ ማድረግ
+መልስ: A
+73. አቅላይነት (Reductionism) በኢትዮጵያ ፖለቲካ ምን ማለት ነው?
+A) ሰፊ ችግሮችን በአነሰ ምልከታ መገንዘብና ተናጠላዊ መፍትሔ ማቅረብ
+B) ሁሉንም ችግር በአንድ ጊዜ መፍታት
+C) የውጭ ሀገራትን ችግር መፍታት
+D) ኢኮኖሚን ብቻ ማሳደግ
+መልስ: A
+74. የመጀመሪያው ፓራዳይም ኢትዮጵያን ለማጠናከር የተከተለው መንገድ ምን ነበር?
+A) ልዩነቶችን በማክበር
+B) ኢትዮጵያን አንድ ዓይነት (ልሙጥ) በማድረግ
+C) የውጭ ቋንቋን በማስተማር
+D) ሃይማኖትን በማጥፋት
+መልስ: B
+75. ልዩነትን መሠረት ያደረገው ሁለተኛው ፓራዳይም ያመጣው ችግር ምን ነበር?
+A) የኢትዮጵያውያንን ጥልቅ አንድነት ዘነጋ
+B) ኢኮኖሚውን አሳደገ
+C) ሁሉንም ቋንቋ አንድ አደረገ
+D) ውጭ ወረራን አስቆመ
+መልስ: A
+76. የኢትዮጵያን ሀገረ መንግስት ቅቡልነት ለማምጣት ምን ያስፈልጋል?
+A) ዋልታ የረገጡ እሳቤዎችን የሚያስታርቅ አቀራራቢ ትርክት
+B) አንዱን ወገን ማጥፋት
+C) አዲስ ቋንቋ መፍጠር
+D) ወደ ውጭ መሰደድ
+መልስ: A
+77. በሀገረ መንግስት ምስረታ ወቅት የነበረው መሠረታዊ ፈተና ምን ነበር?
+A) ብዝኃነትን ከሀገረ መንግስት አንድነት ጋር አጣጥሞ መመስረት አለመቻሉ
+B) የገንዘብ እጥረት
+C) የውጭ ጠላት
+D) የሕዝብ ብዛት ማነስ
+መልስ: A
+78. የሀገረ መንግስት ቅቡልነት ማጣት ምንን ያባብሳል?
+A) ሰላምን
+B) አክራሪነትን እና መናጋትን
+C) ብልጽግናን
+D) የውጭ ኢንቨስትመንትን
+መልስ: B
+79. የሀገረ መንግስት ጥንካሬ በምን ላይ ይመሰረታል?
+A) በወታደር ብዛት ብቻ
+B) በተቋማቱ ብርታትና በሕዝብ ቅቡልነት ላይ
+C) በውጭ ዕርዳታ ላይ
+D) በመሬት ስፋት ላይ
+መልስ: B
+80. የመደመር እሳቤ መፍትሔው ምንድን ነው?
+A) ልዩነትን የሚያከብርና አንድነትን የሚያጠናክር ፖለቲካ መፍጠር
+B) ልዩነትን ማጥፋት
+C) አንድነትን ማጥፋት
+D) በጦርነት ማሸነፍ
+መልስ: A
+81. ዓለም አቀፍ ፖለቲካ ከአንድ ዋልታነት ወደ ምን እየተቀየረ ነው?
+A) ወደ ምንም ዋልታ
+B) ወደ ባለብዙ ዋልታ (Multipolar) ዓለም
+C) ወደ አፍሪካ የበላይነት
+D) ወደ ሮቦቶች አስተዳደር
+መልስ: B
+82. ቴክኖሎጂ በፖለቲካ ላይ ያመጣው ትልቁ ተፅዕኖ ምንድን ነው?
+A) ምንም ተፅዕኖ አላመጣም
+B) የመንግስትን የትርክት የበላይነት በመሸርሸር አፍራሽ ትርክቶች እንዲስፋፉ አስችሏል
+C) ሰላምን ብቻ አምጥቷል
+D) ኢኮኖሚን ብቻ አሳድጓል
+መልስ: B
+83. ግራጫ ጦርነት (Gray Zone Warfare) ምን ዓይነት ጦርነት ነው?
+A) በይፋዊ ወታደሮች የሚደረግ ጦርነት
+B) ከተለምዶ ጦርነት ያነሰ፣ ነገር ግን ከፍተኛ ጫናና ውድመት የሚፈጥር
+C) በባህር ላይ ብቻ የሚደረግ ጦርነት
+D) የቃል ክርክር ብቻ
+መልስ: B
+84. የግራጫ ጦርነት ዋነኛ ስልት ምንድን ነው?
+A) የሥነ ልቦና ጦርነት እና የመረጃ ኦፕሬሽን
+B) አውሮፕላን ማብረር
+C) ታንክ መንዳት
+D) ገንዘብ ማተም
+መልስ: A
+85. በሥነ ልቦና ጦርነት አሸናፊ የሚያደርገው ምንድን ነው?
+A) እውነተኛ መረጃ ብቻ
+B) ያሰራጨኸው የመረጃ መጠንና የማሸበር ዐቅም
+C) የጦር መሳሪያ ብዛት
+D) የወታደር ብዛት
+መልስ: B
+86. በአፍሪካ ላይ የዓለም አቀፍ ሽኩቻ ከሚገለጽባቸው መንገዶች አንዱ የትኛው ነው?
+A) ኢንቨስትመንት ማስፋፋት
+B) መፈንቅለ መንግስት ወይም የስርዓት ለውጥ ማድረግ
+C) ነፃ ትምህርት መስጠት
+D) ባህልን ማሳደግ
+መልስ: B
+87. የአፍሪካ ቀንድ በጂኦፖለቲካው ለምን ተፈላጊ ሆነ?
+A) ምክንያቱም በረሃ ስለሆነ
+B) የቀይ ባህር አዋሳኝ በመሆኑና የዓለም የንግድ ማሳለጫ ስለሆነ
+C) ሕዝቡ ስላነሰ
+D) ምንም ሀብት ስለሌለው
+መልስ: B
+88. ኢትዮጵያ በቀይ ባህር ላይ ያላት ሚና ሲሟሽሽ ምን ይከሰታል?
+A) በጂኦፖለቲካው ያላት ሚና ይኮስማናል
+B) ሀብታም ትሆናለች
+C) ሰላም ታገኛለች
+D) የውጭ ድጋፍ ይበዛላታል
+መልስ: A
+89. የአፍሪካ ቀንድ ሀገራት ለውጭ ጫና ተጋላጭ የሆኑት ለምንድን ነው?
+A) በኢኮኖሚ የፈረጠሙ ስለሆኑ
+B) በግጭትና የእርስ በእርስ ጦርነት ስለሚታመሱ
+C) ብዙ ጦር መሳሪያ ስላላቸው
+D) በጣም የተማሩ ስለሆኑ
+መልስ: B
+90. በተለወጠ ዓለም አቀፍ ሁኔታ ውስጥ ሀገርን ለማጠናከር ምን ያስፈልጋል?
+A) መደበቅ
+B) አዲስ ትውልድን አዘጋጅቶ ዓለም አቀፋዊ ውድድርን መቋቋም
+C) ጦርነት መክፈት
+D) እርዳታ መለመን
+መልስ: B
+91. ‹‹በራቸውን ዘግተው የነበሩ›› ኢትዮጵያውያን መቼ በራቸውን ገርበብ አድርገው ከፈቱ?
+A) በ15ኛው መክዘ
+B) በ17ኛው መክዘ
+C) በ19ኛው መክዘ መጨረሻ
+D) በ21ኛው መክዘ
+መልስ: C
+92. ባንዳነት በምን ይገለጻል?
+A) ለሀገር በመዋጋት
+B) የራስን ንቆ የውጭውን በማንጠልጠል እና ለጠላት በማደር
+C) በጠንካራ ሥራ
+D) በፈጠራ
+መልስ: B
+93. የባንዳነት አባዜ ትልቁ ጉዳት ምንድን ነው?
+A) ኢኮኖሚን ማሳደጉ
+B) በራስ የመተማመን ሀገራዊ ኩራትን መሸርሸሩ
+C) ትምህርት ማስፋፋቱ
+D) ቴክኖሎጂ ማምጣቱ
+መልስ: B
+94. ‹‹የሰው ወርቅ አያደምቅ›› የሚለው ብሂል ምንን ያስተምራል?
+A) የራስን ሕልም ፈልጎ ማግኘትና ማሳደግን
+B) የሰውን መስረቅን
+C) ወርቅ መሸጥን
+D) ወደ ውጭ መሰደድን
+መልስ: A
+95. ከርታታው ይሁዲ (The Wandering Jew) አፈ ታሪክ በምን ይመሰላል?
+A) ከሀገር ሀገር ከሚንከራተተው እና ሕልሙን ከሀገሩ ውጪ ካደረገው ትውልድ ጋር
+B) ከጀግናው አድዋ ጦር ጋር
+C) ከገበሬው ጋር
+D) ከአስተማሪዎች ጋር
+መልስ: A
+96. በኢትዮጵያ ታሪክ ‹‹ክፉ ቀን›› የሚባለው ረሃብ መቼ ተከሰተ?
+A) በአጼ ቴዎድሮስ ዘመን
+B) በአጼ ምኒሊክ ዘመን
+C) በደርግ ዘመን
+D) በኢህአዴግ ዘመን
+መልስ: B
+97. በረሃብ ታሪክ አፍሪካንና ኢትዮጵያን የረሃብ ተምሳሌት ለማድረግ የተደረገው ሙከራ ከምን የመነጨ ነው?
+A) ከእውነተኛ መረጃ
+B) ከዘረኝነት የመነጨ ሸፍጥ
+C) ከሳይንሳዊ ጥናት
+D) ከሕዝቡ ፍላጎት
+መልስ: B
+98. በኢትዮጵያ ለተከሰቱ ረሃቦች ዋና ዋና ምክንያቶች ምን ነበሩ?
+A) የውጭ ዕርዳታ መብዛት
+B) ድርቅ እና ጦርነት
+C) የሕዝብ መብዛት
+D) የኢንዱስትሪ መስፋፋት
+መልስ: B
+99. መጪው ትውልድ የረሃብ ታሪካችንን በምን ሊቀይረው ይገባል?
+A) በውጭ እርዳታ
+B) በመትረፍረፍ እና በለጋሽነት ስነ ልቦና
+C) በጦርነት
+D) በስደት
+መልስ: B
+100. ‹‹ሙሽራ መጣ በርበሬ ቀንጥሱ›› የሚለው ብሂል ምንን ያሳያል?
+A) አስቀድሞ ዝግጅት ማድረግን
+B) ጊዜያዊ ሕልውና ላይ ማተኮርን እና መዘናጋትን
+C) ሠርግ ማዘጋጀትን
+D) ግብርናን
+መልስ: B
+101. ለአንድ ሀገር ብልጽግና መሠረታዊ የሆነው ጉዳይ ምንድን ነው?
+A) በዕውቀት ላይ የሚኖር የበላይነት
+B) የጦር መሳሪያ ብዛት
+C) የሕዝብ ብዛት
+D) የመሬት ስፋት
+መልስ: A
+102. በአሁኑ ዘመን የዕውቀት ምንጮች በጥቂቶች ቁጥጥር ስር መዋላቸው ምን ፈጠረ?
+A) እኩልነትን
+B) ሰዎች ማወቅ ያለባቸውን ጥቂቶች እንዲወስኑ አደረገ
+C) ነፃነትን
+D) ድህነትን መጥፋት
+መልስ: B
+103. ኢትዮጵያን በዕውቀት ተወዳዳሪ ለማድረግ ትውልዱ ምን ዓይነት መሆን አለበት?
+A) ኩራጅ
+B) ሳይንስና ቴክኖሎጂ ፈጣሪ፣ አሳቢና ተመራማሪ
+C) ተመልካች
+D) ስደተኛ
+መልስ: B
+104. ከከፍተኛ ትምህርት ተቋሞቻችን የሚጠበቀው ምንድን ነው?
+A) ዲግሪ ማምረት ብቻ
+B) የወጣቶችን ምናብ መቀስቀስና ችግር ፈቺ ማድረግ
+C) ፖለቲካ ማካሄድ
+D) ውጭ ሀገር መላክ
+መልስ: B
+105. የሞራል ልዕልና መላላት በሀገራችን ምን አስከተለ?
+A) ሌብነት፣ ጭካኔ፣ ግለኝነት እና ስግብግብነት
+B) ፍቅርና መተሳሰብ
+C) ኢኮኖሚያዊ እድገት
+D) ሳይንሳዊ ግኝት
+መልስ: A
+106. ክሡትነት (Emergence) ማለት ምን ማለት ነው?
+A) መጥፋት
+B) ጥቃቅን ዐቅሞች ተጠራቅመው ግዙፍ የለውጥ ሥርዓት መፍጠራቸው
+C) ብቸኝነት
+D) በውጭ ኃይል መገዛት
+መልስ: B
+107. የክሡትነትን ጽንሰ ሐሳብ በተሻለ ለመረዳት የቀረበው ሥነ ፍጥረታዊ ምሳሌ የትኛው ነው?
+A) የአንበሳ ኃይል
+B) የጉንዳን የጋርዮሽ ሥርዓት
+C) የንስር በረራ
+D) የዓሳ ዋና
+መልስ: B
+108. በኢትዮጵያ ታሪክ የክሡትነት ታላቅ ማሳያ የትኛው ነው?
+A) የዘመነ መሳፍንት ጦርነት
+B) የአድዋ ድል (በኅብረት ሕልውናን ማስጠበቅ)
+C) የክፉ ቀን ረሃብ
+D) የጣልያን ወረራ
+መልስ: B
+109. የብቸኝነት ጉድለት ምንን ያመለክታል?
+A) ስኬትን
+B) ተነጣጥሎ መቆም የሚያመጣውን የመክሰም ሥጋት እና የሕልውና እጦት
+C) ጀግንነትን
+D) ዕውቀትን
+መልስ: B
+110. የመደመር ትውልድ ዋና መለያ ምንድን ነው?
+A) ልዩነትን ማጥፋት
+B) ልዩነትን የሚያከብር፣ አንድነትን የሚያጠናክርና አብሮ ማሸነፍን የሚመርጥ
+C) ብቻውን መሮጥ
+D) ወደ ኋላ መመልከት
+መልስ: B
+111. ውበትንና የተፈጥሮ መስህቦችን መጠበቅ በሀገር ውስጥ ምን አስተዋጽዖ አለው?
+A) ምንም ጠቀሜታ የለውም
+B) ለዜጎች ደስታ፣ ጤንነት እና የሀገር ሀብት (ቱሪዝም) ይሆናል
+C) ሀገርን ያደኸያል
+D) ጦርነትን ያመጣል
+መልስ: B
+112. የጃፓን ተማሪዎች ትምህርት ቤታቸውን በጋራ ማጽዳታቸው ምንን ይገነባል?
+A) የበታችነት ስሜትን
+B) የኃላፊነት ስሜትን እና የጋራ ባለቤትነት ባህልን
+C) ድህነትን
+D) የፖለቲካ ልዩነትን
+መልስ: B
+113. ‹‹ለምን ኢየሩሳሌም?›› የሚለው የቅዱስ ላሊበላ ጥያቄ ምንን ያሳያል?
+A) ወደ ውጭ የመጓዝ ፍላጎትን
+B) ኢየሩሳሌምን በሀገር ውስጥ የመፍጠር (የመተካት) የቁጭት ሐሳብን
+C) እየሩሳሌምን የመውረር እቅድን
+D) ሃይማኖት የመቀየር ሐሳብን
+መልስ: B
+114. በኢትዮጵያ የሚታዩት አዳዲስ ፓርኮች (እንደ እንጦጦ፣ አንድነት) ዋና ዓላማ ምንድን ነው?
+A) ገንዘብ ማባከን
+B) ዘመን ተሻጋሪ ውበትን መፍጠርና ሕዝቡ ሀገሩን እንዲጎበኝ ማድረግ
+C) የውጭ ዜጎችን ብቻ ማስደሰት
+D) ዛፍ መቁረጥ
+መልስ: B
+115. የሰው ልጅ ቁሳዊና መንፈሳዊ ክዋኔዎች መዳረሻቸው (ማረፊያቸው) ምንድን ነው?
+A) ባህል
+B) ጦርነት
+C) ሞት
+D) ስደት
+መልስ: A
+116. እሴት (Value) ምንድን ነው?
+A) የባህል ጭማቂ (ማህበረሰቡ ለነገሮች የሚሰጠው ዋጋ እና ሚዛን)
+B) የገንዘብ መጠን
+C) የልብስ ዓይነት
+D) የምግብ ዓይነት
+መልስ: A
+117. በ2000 ዓ.ም. ዘ-ኢኮኖሚስት መጽሔት አፍሪካን ምን ብሎ ጠርቷት ነበር?
+A) የበለጸገች አፍሪካ
+B) ተስፋ አልባዋ አፍሪካ (The Hopeless Continent)
+C) አዲሲቷ አሜሪካ
+D) የቴክኖሎጂ ማዕከል
+መልስ: B
+118. የአድዋ ድል በጥቁር ሕዝቦች ዘንድ ምን ሚና ተጫውቷል?
+A) ምንም አልፈጠረም
+B) የነጻነት ትግል አብሪ ኮከብ እና የ'ይቻላል' መንፈስ ምንጭ ሆነ
+C) አፍሪካን ለቅኝ ግዛት አጋለጠ
+D) ኢኮኖሚን አዳከመ
+መልስ: B
+119. የነገዩቱ ኢትዮጵያ በአፍሪካ ውስጥ ምን ሚና ሊኖራት ይገባል?
+A) ከአፍሪካ መገንጠል
+B) የአፍሪካውያን የብልጽግና፣ የሰላምና የአንድነት (ፓን አፍሪካኒዝም) ማዕከል መሆን
+C) ሌሎች የአፍሪካ ሀገራትን መውረር
+D) የውጭ ኃይሎች መሣሪያ መሆን
+መልስ: B
+120. የመደመር ትውልድ ‹‹ሁለንተናዊ አርነት›› ሲባል ምን ማለት ነው?
+A) የመንደር ተልዕኮን ማሳካት
+B) ከጠባብ ምናብ ወጥቶ ለሰው ልጆች ሁሉ የተሻለ ሁኔታን (የአፍሪካን ኀብረት) መፍጠር
+C) ከሌሎች ጋር መጣላት
+D) ለብቻ ማደግ
+መልስ: B
+`;
+
+        const quizQuestions = [];
+        
+        function parseRawData() {
+            // Split based on regex looking for "number dot space"
+            const blocks = rawTextData.trim().split(/(?:^|\n)(?=\d+\.\s)/);
+            blocks.forEach(block => {
+                if (!block.trim()) return;
+                const lines = block.split('\n').map(l => l.trim()).filter(l => l !== '');
+                const qLine = lines[0].replace(/^\d+\.\s*/, '');
+                
+                const options = [];
+                let ansIdx = 0;
+                
+                for (let i = 1; i < lines.length; i++) {
+                    if (/^[A-D]\)/.test(lines[i])) {
+                        options.push(lines[i].replace(/^[A-D]\)\s*/, ''));
+                    } else if (lines[i].includes('መልስ:')) {
+                        const char = lines[i].split('መልስ:')[1].trim().charAt(0);
+                        if (char === 'A') ansIdx = 0;
+                        else if (char === 'B') ansIdx = 1;
+                        else if (char === 'C') ansIdx = 2;
+                        else if (char === 'D') ansIdx = 3;
+                    }
+                }
+                
+                if (qLine && options.length > 0) {
+                    quizQuestions.push({
+                        q: qLine,
+                        options: options,
+                        answer: ansIdx,
+                        // Generating a detailed Amharic explanation wrapping the correct answer
+                        explanation: `ትክክለኛው መልስ <strong>'${options[ansIdx]}'</strong> ነው። ይህ ምርጫ በመጽሐፉ ውስጥ የተገለጹትን የመደመር እሳቤ፣ የትውልድ ታሪክ፣ እና ሀገራዊ ትርክቶችን መሰረት አድርጎ የቀረበ ትክክለኛ ምላሽ ነው። አጥጋቢ ግንዛቤ ለማግኘት የቀረበውን ጽንሰ-ሀሳብ ማስተዋል ጠቃሚ ነው።`
+                    });
+                }
+            });
+        }
+        parseRawData();
+
+        // --- 2. Application State ---
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let studentName = "";
+        let studentId = "";
+        let userAnswers = new Array(quizQuestions.length).fill(null);
+
+        // --- 3. DOM Elements ---
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const startBtn = document.getElementById('start-btn');
+        const nameInput = document.getElementById('student-name');
+        const idInput = document.getElementById('student-id');
+        const errorMsg = document.getElementById('error-msg');
+        
+        const displayName = document.getElementById('display-name');
+        const displayId = document.getElementById('display-id');
+        const currentQNum = document.getElementById('current-q-num');
+        const totalQNum = document.getElementById('total-q-num');
+        const progressBar = document.getElementById('progress-bar');
+        
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackIcon = document.getElementById('feedback-icon');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const nextBtnText = document.getElementById('next-btn-text');
+
+        // --- 4. Logic & Event Listeners ---
+        totalQNum.textContent = quizQuestions.length;
+
+        startBtn.addEventListener('click', () => {
+            studentName = nameInput.value.trim();
+            studentId = idInput.value.trim();
+            if (studentName === "" || studentId === "") {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            errorMsg.classList.add('hidden');
+            displayName.textContent = studentName;
+            displayId.textContent = studentId;
+            
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            renderQuestion();
+        });
+
+        function renderQuestion() {
+            const q = quizQuestions[currentQuestionIndex];
+            currentQNum.textContent = currentQuestionIndex + 1;
+            progressBar.style.width = `${((currentQuestionIndex) / quizQuestions.length) * 100}%`;
+            
+            questionText.textContent = `${currentQuestionIndex + 1}. ${q.q}`;
+            optionsContainer.innerHTML = '';
+            feedbackArea.classList.add('hidden');
+            
+            const answeredOption = userAnswers[currentQuestionIndex];
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full text-left p-4 rounded-xl border-2 font-medium text-gray-700 bg-white flex items-center justify-between group`;
+                btn.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mr-4 font-bold group-hover:bg-indigo-100 group-hover:text-indigo-600 transition">${String.fromCharCode(65 + idx)}</span>
+                        <span>${opt}</span>
+                    </div>
+                `;
+                
+                if (answeredOption === null) {
+                    btn.classList.add('hover:border-indigo-500', 'border-gray-200');
+                    btn.onclick = () => handleAnswer(idx);
+                } else {
+                    btn.disabled = true;
+                    // Styling for already answered
+                    if (idx === q.answer) {
+                        btn.className = `option-btn w-full text-left p-4 rounded-xl border-2 font-medium bg-green-50 border-green-500 text-green-800 flex items-center justify-between`;
+                        btn.innerHTML += `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                        // Change icon style
+                        btn.querySelector('span.w-8').className = "w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center mr-4 font-bold";
+                    } else if (idx === answeredOption) {
+                        btn.className = `option-btn w-full text-left p-4 rounded-xl border-2 font-medium bg-red-50 border-red-500 text-red-800 flex items-center justify-between`;
+                        btn.innerHTML += `<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                        // Change icon style
+                        btn.querySelector('span.w-8').className = "w-8 h-8 rounded-full bg-red-200 text-red-700 flex items-center justify-center mr-4 font-bold";
+                    } else {
+                        btn.classList.add('border-gray-200', 'opacity-50');
+                    }
+                }
+                optionsContainer.appendChild(btn);
+            });
+
+            // Adjust Footer buttons
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (answeredOption !== null) {
+                showFeedback(answeredOption === q.answer, q.explanation);
+                nextBtnText.textContent = currentQuestionIndex === quizQuestions.length - 1 ? "ጨርስ (Submit)" : "ቀጣይ (Next)";
+                nextBtn.classList.replace('bg-indigo-600', 'bg-green-600');
+                nextBtn.classList.replace('hover:bg-indigo-700', 'hover:bg-green-700');
+            } else {
+                nextBtnText.textContent = "ዝለል (Skip)";
+                nextBtn.classList.replace('bg-green-600', 'bg-indigo-600');
+                nextBtn.classList.replace('hover:bg-green-700', 'hover:bg-indigo-700');
+            }
+        }
+
+        function handleAnswer(selectedIndex) {
+            const q = quizQuestions[currentQuestionIndex];
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            
+            if (selectedIndex === q.answer) {
+                score++;
+            }
+            
+            renderQuestion(); // Re-render to show styling and disable buttons
+        }
+
+        function showFeedback(isCorrect, explanationStr) {
+            feedbackArea.classList.remove('hidden', 'bg-green-50', 'border-green-200', 'bg-red-50', 'border-red-200');
+            feedbackArea.classList.add(isCorrect ? 'bg-green-50' : 'bg-red-50');
+            feedbackArea.classList.add(isCorrect ? 'border-green-200' : 'border-red-200');
+            
+            if (isCorrect) {
+                feedbackIcon.innerHTML = `<svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                feedbackTitle.textContent = "ትክክል ነዎት! (Correct)";
+                feedbackTitle.className = "font-bold text-lg text-green-700";
+            } else {
+                feedbackIcon.innerHTML = `<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                feedbackTitle.textContent = "ተሳስተዋል (Incorrect)";
+                feedbackTitle.className = "font-bold text-lg text-red-700";
+            }
+            
+            feedbackExplanation.innerHTML = explanationStr;
+            feedbackExplanation.className = `mt-1 text-sm md:text-base leading-relaxed ${isCorrect ? 'text-green-800' : 'text-red-800'}`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            document.getElementById('result-name').textContent = studentName;
+            document.getElementById('result-id').textContent = `ID: ${studentId}`;
+            
+            document.getElementById('score-points').textContent = score;
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            const pElem = document.getElementById('score-percentage');
+            pElem.textContent = `${percentage}%`;
+            
+            if (percentage >= 80) pElem.className = "text-lg font-bold text-green-500 mt-2";
+            else if (percentage >= 50) pElem.className = "text-lg font-bold text-yellow-500 mt-2";
+            else pElem.className = "text-lg font-bold text-red-500 mt-2";
+        }
+
+        document.getElementById('email-btn').addEventListener('click', () => {
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            const subject = encodeURIComponent(`የመደመር ፈተና ውጤት - ${studentName}`);
+            const body = encodeURIComponent(`ሰላም! የፈተናው ውጤት ዝርዝር ከዚህ በታች ቀርቧል።\n\nሙሉ ስም: ${studentName}\nመታወቂያ ቁጥር: ${studentId}\nአጠቃላይ ውጤት: ${score} / ${quizQuestions.length} (${percentage}%)\n\nበመደመር ትውልድ የጥያቄና መልስ መተግበሪያ የተላከ።`);
+            window.location.href = `mailto:mesayferedegn2@gmail.com?subject=${subject}&body=${body}`;
+        });
+
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            // Reset state
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers.fill(null);
+            
+            resultScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+            
+            nameInput.value = "";
+            idInput.value = "";
+            studentName = "";
+            studentId = "";
+        });
+
+    </script>
+</body>
+</html>
